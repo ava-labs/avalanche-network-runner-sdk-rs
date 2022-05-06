@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 set -xue
 
-if ! [[ "$0" =~ scripts/static-analysis.sh ]]; then
+if ! [[ "$0" =~ scripts/tests.lint.sh ]]; then
   echo "must be run from repository root"
   exit 255
 fi
-
-# git submodule add https://github.com/googleapis/googleapis
-git submodule update --init --remote
 
 # check https://www.rust-lang.org/tools/install for Rust compiler installation
 # e.g.,

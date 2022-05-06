@@ -9,6 +9,6 @@ fi
 # git submodule add https://github.com/googleapis/googleapis
 git submodule update --init --remote
 
-RUST_LOG=debug cargo test --all --all-features -- --show-output
+RUST_LOG=debug cargo test --all --all-features --exclude e2e -- --show-output
 
 echo "ALL SUCCESS!"
