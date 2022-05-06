@@ -94,7 +94,7 @@ jobs:
       - uses: Swatinem/rust-cache@v1
         with:
           cache-on-failure: true
-      - name: Run unit tests
+      - name: Run e2e tests
         run: scripts/tests.e2e.sh 1.7.10
 
   # TODO: automate crate publish/release
