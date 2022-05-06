@@ -1,9 +1,10 @@
 use std::{
     io::{self, Error, ErrorKind},
-    sync::{Arc, Mutex},
+    sync::Arc,
 };
 
 use log::info;
+use tokio::sync::Mutex;
 use tonic::transport::Channel;
 
 pub mod rpcpb {
@@ -49,7 +50,7 @@ impl Client<Channel> {
 
     /// Pings the network-runner server.
     pub async fn ping(&self) -> io::Result<PingResponse> {
-        let mut ping_client = self.grpc_client.ping_client.lock().unwrap();
+        let mut ping_client = self.grpc_client.ping_client.lock().await;
         let req = tonic::Request::new(PingRequest {});
         let resp = ping_client
             .ping(req)
@@ -62,7 +63,7 @@ impl Client<Channel> {
 
     /// Starts a cluster.
     pub async fn start(&self, req: StartRequest) -> io::Result<StartResponse> {
-        let mut control_client = self.grpc_client.control_client.lock().unwrap();
+        let mut control_client = self.grpc_client.control_client.lock().await;
         let req = tonic::Request::new(req);
         let resp = control_client
             .start(req)
@@ -75,7 +76,7 @@ impl Client<Channel> {
 
     /// Fetches the current cluster health information via network-runner.
     pub async fn health(&self) -> io::Result<HealthResponse> {
-        let mut control_client = self.grpc_client.control_client.lock().unwrap();
+        let mut control_client = self.grpc_client.control_client.lock().await;
         let req = tonic::Request::new(HealthRequest {});
         let resp = control_client
             .health(req)
@@ -88,7 +89,7 @@ impl Client<Channel> {
 
     /// Fetches the URIs for the current cluster.
     pub async fn uris(&self) -> io::Result<Vec<String>> {
-        let mut control_client = self.grpc_client.control_client.lock().unwrap();
+        let mut control_client = self.grpc_client.control_client.lock().await;
         let req = tonic::Request::new(UrIsRequest {});
         let resp = control_client
             .ur_is(req)
@@ -101,7 +102,7 @@ impl Client<Channel> {
 
     /// Fetches the current cluster status via network-runner.
     pub async fn status(&self) -> io::Result<StatusResponse> {
-        let mut control_client = self.grpc_client.control_client.lock().unwrap();
+        let mut control_client = self.grpc_client.control_client.lock().await;
         let req = tonic::Request::new(StatusRequest {});
         let resp = control_client
             .status(req)
@@ -114,7 +115,7 @@ impl Client<Channel> {
 
     /// Stop the currently running cluster.
     pub async fn stop(&self) -> io::Result<StopResponse> {
-        let mut control_client = self.grpc_client.control_client.lock().unwrap();
+        let mut control_client = self.grpc_client.control_client.lock().await;
         let req = tonic::Request::new(StopRequest {});
         let resp = control_client
             .stop(req)
