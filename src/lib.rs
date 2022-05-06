@@ -9,7 +9,7 @@ use tonic::transport::Channel;
 pub mod rpcpb {
     tonic::include_proto!("rpcpb");
 }
-use rpcpb::{
+pub use rpcpb::{
     control_service_client::ControlServiceClient, ping_service_client::PingServiceClient,
     HealthRequest, HealthResponse, PingRequest, PingResponse, StartRequest, StartResponse,
     StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest,
