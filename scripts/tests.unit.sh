@@ -6,6 +6,8 @@ if ! [[ "$0" =~ scripts/tests.unit.sh ]]; then
   exit 255
 fi
 
+git submodule update --init --remote
+
 RUST_LOG=debug cargo test --all --all-features --exclude e2e -- --show-output
 
 echo "ALL SUCCESS!"
