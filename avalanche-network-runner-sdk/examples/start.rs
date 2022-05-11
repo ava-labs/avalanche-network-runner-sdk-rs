@@ -3,7 +3,7 @@ use std::env::args;
 use log::info;
 use tokio::runtime::Runtime;
 
-use avalanche_network_runner_sdk::{rpcpb::StartRequest, Client};
+use avalanche_network_runner_sdk::{StartRequest, Client};
 
 /// cargo run --example start -- [HTTP RPC ENDPOINT] [EXEC PATH]
 /// cargo run --example start -- http://127.0.0.1:8080 /Users/gyuho.lee/go/src/github.com/ava-labs/avalanchego/build/avalanchego
