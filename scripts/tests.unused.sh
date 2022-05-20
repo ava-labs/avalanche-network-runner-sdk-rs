@@ -6,7 +6,7 @@ if ! [[ "$0" =~ scripts/tests.unused.sh ]]; then
   exit 255
 fi
 
-git submodule update --init --remote
+git submodule update --init
 
 # https://github.com/est31/cargo-udeps
 cargo install cargo-udeps --locked

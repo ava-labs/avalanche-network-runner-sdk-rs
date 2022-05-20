@@ -7,7 +7,7 @@ if ! [[ "$0" =~ scripts/tests.e2e.sh ]]; then
   exit 255
 fi
 
-git submodule update --init --remote
+git submodule update --init
 
 AVALANCHEGO_VERSION=$1
 if [[ -z "${AVALANCHEGO_VERSION}" ]]; then
@@ -53,7 +53,7 @@ AVALANCHEGO_PLUGIN_DIR=/tmp/avalanchego-v${AVALANCHEGO_VERSION}/plugins
 # download avalanche-network-runner
 # https://github.com/ava-labs/avalanche-network-runner
 # TODO: use "go install -v github.com/ava-labs/avalanche-network-runner/cmd/avalanche-network-runner@v${NETWORK_RUNNER_VERSION}"
-NETWORK_RUNNER_VERSION=1.0.12
+NETWORK_RUNNER_VERSION=1.0.16-beta
 DOWNLOAD_PATH=/tmp/avalanche-network-runner.tar.gz
 DOWNLOAD_URL=https://github.com/ava-labs/avalanche-network-runner/releases/download/v${NETWORK_RUNNER_VERSION}/avalanche-network-runner_${NETWORK_RUNNER_VERSION}_linux_amd64.tar.gz
 if [[ ${GOOS} == "darwin" ]]; then

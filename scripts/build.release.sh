@@ -8,6 +8,6 @@ fi
 
 # git submodule add https://github.com/googleapis/googleapis
 # git submodule add https://github.com/ava-labs/avalanche-network-runner
-git submodule update --init --remote
+git submodule update --init
 
 cargo build --release
