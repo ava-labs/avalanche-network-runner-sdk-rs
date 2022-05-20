@@ -7,7 +7,7 @@ if ! [[ "$0" =~ scripts/tests.e2e.sh ]]; then
   exit 255
 fi
 
-git submodule update --init --remote
+git submodule update --init
 
 AVALANCHEGO_VERSION=$1
 if [[ -z "${AVALANCHEGO_VERSION}" ]]; then

@@ -6,7 +6,7 @@ if ! [[ "$0" =~ scripts/tests.lint.sh ]]; then
   exit 255
 fi
 
-git submodule update --init --remote
+git submodule update --init
 
 # check https://www.rust-lang.org/tools/install for Rust compiler installation
 # e.g.,
