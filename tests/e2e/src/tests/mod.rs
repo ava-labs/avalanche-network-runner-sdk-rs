@@ -5,7 +5,7 @@ use std::{
 
 use log::{info, warn};
 
-use avalanche_network_runner_sdk::{Client, StartRequest};
+use avalanche_network_runner_sdk::{Client, GlobalConfig, StartRequest};
 
 #[tokio::test]
 async fn e2e() {
@@ -26,11 +26,15 @@ async fn e2e() {
     let (exec_path, is_set) = crate::get_network_runner_avalanchego_path();
     assert!(is_set);
 
+    let global_config = GlobalConfig {
+        log_level: String::from("info"),
+    };
+
     info!("starting...");
     let resp = cli
         .start(StartRequest {
             exec_path,
-            log_level: Some(String::from("INFO")),
+            global_node_config: Some(serde_json::to_string(&global_config).unwrap()),
             ..Default::default()
         })
         .await

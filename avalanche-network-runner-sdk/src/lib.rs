@@ -4,6 +4,7 @@ use std::{
 };
 
 use log::info;
+use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
 use tonic::transport::Channel;
 
@@ -25,6 +26,11 @@ pub struct Client<T> {
 pub struct GrpcClient<T> {
     pub ping_client: Mutex<PingServiceClient<T>>,
     pub control_client: Mutex<ControlServiceClient<T>>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct GlobalConfig {
+    pub log_level: String,
 }
 
 impl Client<Channel> {
