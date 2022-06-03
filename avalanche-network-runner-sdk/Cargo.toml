@@ -2,7 +2,7 @@
 name = "avalanche-network-runner-sdk"
 version = "0.0.0"
 edition = "2021"
-rust-version = "1.60"
+rust-version = "1.61"
 publish = true
 description = "avalanche-network-runner-sdk in Rust"
 license = "BSD-3-Clause"
@@ -11,9 +11,9 @@ repository = "https://github.com/ava-labs/avalanche-network-runner-sdk-rs"
 
 [dependencies]
 log = "0.4.17"
-prost = "0.10.3"
+prost = "0.10.4"
 prost-types = "0.10.1"
-tokio = { version = "1.18.1", features = ["fs", "rt-multi-thread"] }
+tokio = { version = "1.18.2", features = ["fs", "rt-multi-thread"] }
 tokio-stream = { version = "0.1.8", features = ["net"] }
 tonic = "0.7.2"
 
