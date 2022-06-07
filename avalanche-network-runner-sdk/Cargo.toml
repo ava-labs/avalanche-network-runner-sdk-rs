@@ -10,7 +10,6 @@ homepage = "https://avax.network"
 repository = "https://github.com/ava-labs/avalanche-network-runner-sdk-rs"
 
 [dependencies]
-assert-json-diff = "2.0.1"
 log = "0.4.17"
 prost = "0.10.4"
 prost-types = "0.10.1"
@@ -25,6 +24,7 @@ tonic = "0.7.2"
 tonic-build = "0.7.2"
 
 [dev-dependencies]
+assert-json-diff = "2.0.1"
 env_logger = "0.9.0"
 
 # serde_json is used in examples but fails cargo-udeps
