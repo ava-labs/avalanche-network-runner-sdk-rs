@@ -29,6 +29,7 @@ pub struct GrpcClient<T> {
 }
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
 pub struct GlobalConfig {
     pub log_level: String,
 }
@@ -131,4 +132,20 @@ impl Client<Channel> {
         let stop_resp = resp.into_inner();
         Ok(stop_resp)
     }
+}
+
+#[test]
+fn global_config() {
+    use assert_json_diff::assert_json_include;
+    use serde_json::json;
+
+    let conf = GlobalConfig {
+        log_level: "debug".to_string(),
+    };
+    let expected = json!({
+        "log-level": "debug",
+    });
+
+    let actual = serde_json::to_value(conf).unwrap();
+    assert_json_include!(actual: actual, expected: expected)
 }
