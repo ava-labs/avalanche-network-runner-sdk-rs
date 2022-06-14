@@ -9,7 +9,7 @@ use avalanche_proto::rpcpb::StartRequest;
 /// cargo run --example start -- [HTTP RPC ENDPOINT] [EXEC PATH]
 /// cargo run --example start -- http://127.0.0.1:8080 ~/Documents/avalanchego/build/avalanchego
 fn main() {
-    // ref. https://github.com/env-logger-rs/env_logg er/issues/47
+    // ref. https://github.com/env-logger-rs/env_logger/issues/47
     env_logger::init_from_env(
         env_logger::Env::default().filter_or(env_logger::DEFAULT_FILTER_ENV, "info"),
     );
