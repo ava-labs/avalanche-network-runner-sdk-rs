@@ -8,10 +8,7 @@ use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
 use tonic::transport::Channel;
 
-pub mod rpcpb {
-    tonic::include_proto!("rpcpb");
-}
-pub use rpcpb::{
+use avalanche_proto::rpcpb::{
     control_service_client::ControlServiceClient, ping_service_client::PingServiceClient,
     HealthRequest, HealthResponse, PingRequest, PingResponse, StartRequest, StartResponse,
     StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest,
