@@ -1,1 +1,0 @@
-{"rustc":2418938918086555466,"features":"","target":0,"profile":0,"path":0,"deps":[[18334180868198361878,"build_script_build",false,11268031188046263224]],"local":[{"RerunIfEnvChanged":{"var":"PROTOC","val":null}},{"RerunIfEnvChanged":{"var":"PROTOC_INCLUDE","val":null}}],"rustflags":[],"metadata":0,"config":0,"compile_kind":0}
