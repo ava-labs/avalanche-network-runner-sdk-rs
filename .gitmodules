@@ -1,3 +1,6 @@
+[submodule "avalanche-network-runner-sdk/googleapis"]
+	path = avalanche-network-runner-sdk/googleapis
+	url = https://github.com/googleapis/googleapis
 [submodule "avalanche-network-runner-sdk/avalanche-network-runner"]
 	path = avalanche-network-runner-sdk/avalanche-network-runner
 	url = https://github.com/ava-labs/avalanche-network-runner
