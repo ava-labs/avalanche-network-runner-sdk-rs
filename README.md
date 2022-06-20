@@ -4,7 +4,7 @@
 
 ![Github Actions](https://github.com/ava-labs/avalanche-network-runner-sdk-rs/actions/workflows/build-test-release.yml/badge.svg)
 
-![Crates.io](https://img.shields.io/crates/v/avalanche-network-runner-sdk-rs?logo=rust&style=for-the-badge)
+![Crates.io](https://img.shields.io/crates/v/avalanche-network-runner-sdk?logo=rust&style=for-the-badge)
 
 ## Avalanche network runner Rust SDK
 
