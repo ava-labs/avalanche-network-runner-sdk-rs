@@ -6,6 +6,8 @@ if ! [[ "$0" =~ scripts/tests.lint.sh ]]; then
   exit 255
 fi
 
+git submodule update --init
+
 # check https://www.rust-lang.org/tools/install for Rust compiler installation
 # e.g.,
 # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

@@ -3,11 +3,10 @@ use std::env::args;
 use log::info;
 use tokio::runtime::Runtime;
 
-use avalanche_network_runner_sdk::{Client, GlobalConfig};
-use avalanche_proto::rpcpb::StartRequest;
+use avalanche_network_runner_sdk::{rpcpb::StartRequest, Client, GlobalConfig};
 
 /// cargo run --example start -- [HTTP RPC ENDPOINT] [EXEC PATH]
-/// cargo run --example start -- http://127.0.0.1:8080 ~/Documents/avalanchego/build/avalanchego
+/// cargo run --example start -- http://127.0.0.1:8080 /Users/gyuho.lee/go/src/github.com/ava-labs/avalanchego/build/avalanchego
 fn main() {
     // ref. https://github.com/env-logger-rs/env_logger/issues/47
     env_logger::init_from_env(

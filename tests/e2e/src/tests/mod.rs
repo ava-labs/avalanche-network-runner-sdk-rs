@@ -5,8 +5,7 @@ use std::{
 
 use log::{info, warn};
 
-use avalanche_network_runner_sdk::{Client, GlobalConfig};
-use avalanche_proto::rpcpb::StartRequest;
+use avalanche_network_runner_sdk::{Client, GlobalConfig, StartRequest};
 
 #[tokio::test]
 async fn e2e() {
