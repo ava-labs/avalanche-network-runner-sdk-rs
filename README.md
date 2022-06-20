@@ -9,3 +9,5 @@
 ## Avalanche network runner Rust SDK
 
 Rust SDK for [`avalanche-network-runner`](https://github.com/ava-labs/avalanche-network-runner).
+
+See https://crates.io/crates/avalanche-network-runner-sdk-rs for latest crate versions.
