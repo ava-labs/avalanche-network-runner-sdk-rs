@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-# ./scripts/tests.e2e.sh 1.7.10
+# ./scripts/tests.e2e.sh 1.7.13
 if ! [[ "$0" =~ scripts/tests.e2e.sh ]]; then
   echo "must be run from repository root"
   exit 255
 fi
-
-git submodule update --init
 
 AVALANCHEGO_VERSION=$1
 if [[ -z "${AVALANCHEGO_VERSION}" ]]; then
