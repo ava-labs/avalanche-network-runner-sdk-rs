@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - uses: abelfodil/protoc-action@v1
+        with:
+          protoc-version: "3.19.4"
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -41,6 +44,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - uses: abelfodil/protoc-action@v1
+        with:
+          protoc-version: "3.19.4"
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -63,6 +69,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - uses: abelfodil/protoc-action@v1
+        with:
+          protoc-version: "3.19.4"
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -83,6 +92,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - uses: abelfodil/protoc-action@v1
+        with:
+          protoc-version: "3.19.4"
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -95,6 +107,6 @@ jobs:
         with:
           cache-on-failure: true
       - name: Run e2e tests
-        run: scripts/tests.e2e.sh 1.7.13
+        run: scripts/tests.e2e.sh 1.8.4
 
   # TODO: automate crate publish/release
