@@ -19,9 +19,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      # https://github.com/hyperium/tonic/issues/1047#issuecomment-1222508191
       - uses: abelfodil/protoc-action@v1
         with:
           protoc-version: "3.19.4"
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -44,9 +47,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      # https://github.com/hyperium/tonic/issues/1047#issuecomment-1222508191
       - uses: abelfodil/protoc-action@v1
         with:
           protoc-version: "3.19.4"
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -69,9 +75,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      # https://github.com/hyperium/tonic/issues/1047#issuecomment-1222508191
       - uses: abelfodil/protoc-action@v1
         with:
           protoc-version: "3.19.4"
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -92,9 +101,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      # https://github.com/hyperium/tonic/issues/1047#issuecomment-1222508191
       - uses: abelfodil/protoc-action@v1
         with:
           protoc-version: "3.19.4"
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
