@@ -34,6 +34,21 @@ pub struct GlobalConfig {
     pub log_level: String,
 }
 
+#[derive(Serialize, Deserialize)]
+pub struct BlockchainSpecs {
+    #[serde(rename = "vm_name")]
+    /// Name of the Vm.
+    pub vm_name: String,
+
+    /// Path to genesis file.
+    pub genesis: String,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "subnet_id")]
+    /// Id for the subnet.
+    pub subnet_id: Option<String>,
+}
+
 impl Client<Channel> {
     /// Creates a new network-runner client.
     ///
@@ -148,4 +163,39 @@ fn global_config() {
 
     let actual = serde_json::to_value(conf).unwrap();
     assert_json_include!(actual: actual, expected: expected)
+}
+
+#[test]
+fn block_chain_spec() {
+    use assert_json_diff::assert_json_include;
+    use serde_json::json;
+
+    let spec = BlockchainSpecs {
+        vm_name: "minikvvm".to_string(),
+        genesis: "/tmp/genesis.json".to_string(),
+        subnet_id: None,
+    };
+
+    let expected = json!({
+        "vm_name": "minikvvm",
+        "genesis": "/tmp/genesis.json"
+    });
+
+    let actual = serde_json::to_value(spec).unwrap();
+    assert_json_include!(actual: actual, expected: expected);
+
+    let spec = BlockchainSpecs {
+        vm_name: "minikvvm".to_string(),
+        genesis: "/tmp/genesis.json".to_string(),
+        subnet_id: Some("qBnAKUQ2mxiB1JdqsPPU7Ufuj1XmPLpnPTRvZEpkYZBmK6UjE".to_string()),
+    };
+
+    let expected = json!({
+        "vm_name": "minikvvm",
+        "genesis": "/tmp/genesis.json",
+        "subnet_id": "qBnAKUQ2mxiB1JdqsPPU7Ufuj1XmPLpnPTRvZEpkYZBmK6UjE",
+    });
+
+    let actual = serde_json::to_value(spec).unwrap();
+    assert_json_include!(actual: actual, expected: expected);
 }
