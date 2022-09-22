@@ -13,8 +13,8 @@ pub mod rpcpb {
 }
 pub use rpcpb::{
     control_service_client::ControlServiceClient, ping_service_client::PingServiceClient,
-    HealthRequest, HealthResponse, PingRequest, PingResponse, StartRequest, StartResponse,
-    StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest,
+    BlockchainSpec, HealthRequest, HealthResponse, PingRequest, PingResponse, StartRequest,
+    StartResponse, StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest,
 };
 
 pub struct Client<T> {
