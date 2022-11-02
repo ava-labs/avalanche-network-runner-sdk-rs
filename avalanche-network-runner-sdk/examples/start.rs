@@ -1,6 +1,5 @@
 use std::env::args;
 
-use log::info;
 use tokio::runtime::Runtime;
 
 use avalanche_network_runner_sdk::{rpcpb::StartRequest, Client, GlobalConfig};
@@ -17,7 +16,7 @@ fn main() {
     let exec_path = args().nth(2).expect("no exec path given");
     let rt = Runtime::new().unwrap();
 
-    info!("creating client");
+    log::info!("creating client");
     let cli = rt.block_on(Client::new(&url));
     let global_config = GlobalConfig {
         log_level: String::from("info"),
@@ -31,5 +30,5 @@ fn main() {
             ..Default::default()
         }))
         .expect("failed start");
-    info!("start response: {:?}", resp);
+    log::info!("start response: {:?}", resp);
 }
