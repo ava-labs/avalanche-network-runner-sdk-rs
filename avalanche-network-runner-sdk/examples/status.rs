@@ -1,6 +1,5 @@
 use std::env::args;
 
-use log::info;
 use tokio::runtime::Runtime;
 
 use avalanche_network_runner_sdk::Client;
@@ -16,9 +15,9 @@ fn main() {
     let url = args().nth(1).expect("no url given");
     let rt = Runtime::new().unwrap();
 
-    info!("creating client");
+    log::info!("creating client");
     let cli = rt.block_on(Client::new(&url));
 
     let resp = rt.block_on(cli.status()).expect("failed status");
-    info!("status response: {:?}", resp);
+    log::info!("status response: {:?}", resp);
 }
