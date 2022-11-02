@@ -1,6 +1,6 @@
 [package]
 name = "avalanche-network-runner-sdk"
-version = "0.3.0"
+version = "0.3.0" # https://crates.io/crates/avalanche-network-runner-sdk
 edition = "2021"
 rust-version = "1.64"
 publish = true
