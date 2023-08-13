@@ -119,6 +119,6 @@ jobs:
         with:
           cache-on-failure: true
       - name: Run e2e tests
-        run: scripts/tests.e2e.sh 1.9.1
+        run: scripts/tests.e2e.sh 1.10.8
 
   # TODO: automate crate publish/release
