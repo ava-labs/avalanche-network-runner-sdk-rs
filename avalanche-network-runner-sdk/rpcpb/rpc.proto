@@ -1,6 +1,3 @@
-// Copied from https://github.com/ava-labs/avalanche-network-runner/blob/v1.3.0/rpcpb/rpc.proto
-// without gRPC gateway dependency
-
 syntax = "proto3";
 
 package rpcpb;
@@ -17,6 +14,9 @@ message PingResponse {
 }
 
 service ControlService {
+  rpc RPCVersion(RPCVersionRequest) returns (RPCVersionResponse) {
+  }
+
   rpc Start(StartRequest) returns (StartResponse) {
   }
 
@@ -24,6 +24,15 @@ service ControlService {
   }
 
   rpc TransformElasticSubnets(TransformElasticSubnetsRequest) returns (TransformElasticSubnetsResponse) {
+  }
+
+  rpc AddPermissionlessDelegator(AddPermissionlessDelegatorRequest) returns (AddPermissionlessDelegatorResponse) {
+  }
+
+  rpc AddPermissionlessValidator(AddPermissionlessValidatorRequest) returns (AddPermissionlessValidatorResponse) {
+  }
+
+  rpc RemoveSubnetValidator(RemoveSubnetValidatorRequest) returns (RemoveSubnetValidatorResponse) {
   }
 
   rpc CreateSubnets(CreateSubnetsRequest) returns (CreateSubnetsResponse) {
@@ -79,6 +88,18 @@ service ControlService {
 
   rpc GetSnapshotNames(GetSnapshotNamesRequest) returns (GetSnapshotNamesResponse) {
   }
+
+  rpc ListSubnets(ListSubnetsRequest) returns (ListSubnetsResponse) {
+  }
+
+  rpc ListBlockchains(ListBlockchainsRequest) returns (ListBlockchainsResponse) {
+  }
+
+  rpc ListRpcs(ListRpcsRequest) returns (ListRpcsResponse) {
+  }
+
+  rpc VMID(VMIDRequest) returns (VMIDResponse) {
+  }
 }
 
 message SubnetParticipants {
@@ -99,15 +120,19 @@ message ClusterInfo {
   bool custom_chains_healthy = 7;
   // The map of blockchain IDs in "ids.ID" format to its blockchain information.
   map<string, CustomChainInfo> custom_chains = 8;
-  repeated string subnets          = 9;
+  map<string, SubnetInfo> subnets          = 9;
+  uint32 network_id                         = 10;
 }
 
 message SubnetInfo {
   // If Subnet is an Elastic Subnet
   bool is_elastic = 1;
 
+  // TXID for the elastic subnet transform
+  string elastic_subnet_id = 2;
+
   // node validators of subnet
-  SubnetParticipants subnet_participants = 2;
+  SubnetParticipants subnet_participants = 3;
 }
 
 message CustomChainInfo {
@@ -137,8 +162,8 @@ message NodeInfo {
   string db_dir               = 6;
   string plugin_dir           = 7;
   string whitelisted_subnets  = 8;
-  bytes config = 9;
-  bool paused = 10;
+  bytes  config               = 9;
+  bool   paused               = 10;
 }
 
 message AttachedPeerInfo {
@@ -157,9 +182,8 @@ message StartRequest {
   // Used for both database and log files.
   optional string root_data_dir = 5;
 
-  // Build directory that contains the subdir 'plugins' from which to load all custom VM executables.
-  // If not specified, will be derived from the exec_path (its basedir)
-  optional string plugin_dir = 6;
+  // Plugin dir from which to load all custom VM executables.
+  string plugin_dir = 6;
 
   // The list of:
   // - custom chain's VM name
@@ -204,8 +228,15 @@ message StartRequest {
   map<string, string> subnet_configs = 13;
 }
 
+message RPCVersionRequest {}
+
+message RPCVersionResponse {
+  uint32 version = 1;
+}
+
 message StartResponse {
   ClusterInfo cluster_info = 1;
+  repeated string chain_ids = 2;
 }
 
 message SubnetSpec {
@@ -240,16 +271,61 @@ message TransformElasticSubnetsRequest {
 message TransformElasticSubnetsResponse {
   ClusterInfo cluster_info = 1;
   repeated string tx_ids = 2;
+  repeated string asset_ids = 3;
+}
+
+message PermissionlessStakerSpec {
+  string subnet_id = 1;
+  string node_name = 2;
+  uint64 staked_token_amount = 3;
+  string asset_id = 4;
+  string start_time = 5;
+  uint64 stake_duration = 6;
+}
+
+message AddPermissionlessValidatorRequest {
+  repeated PermissionlessStakerSpec validator_spec = 1;
+}
+
+message AddPermissionlessValidatorResponse {
+  ClusterInfo cluster_info = 1;
+}
+
+message AddPermissionlessDelegatorRequest {
+  repeated PermissionlessStakerSpec validator_spec = 1;
+}
+
+message AddPermissionlessDelegatorResponse {
+  ClusterInfo cluster_info = 1;
+}
+
+message RemoveSubnetValidatorSpec {
+  string subnet_id = 1;
+  repeated string node_names = 2;
+}
+
+message RemoveSubnetValidatorRequest {
+  repeated RemoveSubnetValidatorSpec validator_spec = 1;
+}
+
+message RemoveSubnetValidatorResponse {
+  ClusterInfo cluster_info = 1;
 }
 
 message BlockchainSpec {
   string vm_name = 1;
+  // either file path or file contents
   string genesis = 2;
+  // either a subnet_id is given for a previously created subnet,
+  // or a subnet specification is given for a new subnet generation
   optional string subnet_id = 3;
   optional SubnetSpec subnet_spec = 4;
+  // General chain config, either file path or file contents
   string chain_config = 5;
+  // either file path or file contents
   string network_upgrade = 6;
   string blockchain_alias = 7;
+  // Per node chain config, either file path or file contents
   string per_node_chain_config = 8;
 }
 
@@ -260,6 +336,8 @@ message CreateBlockchainsRequest {
   // - (optional) subnet id to use.
   // - chain config file path
   // - network upgrade file path
+  // - subnet config file path
+  // - chain config file path for specific nodes
   //
   // The matching file with the name in "ids.ID" format must exist.
   // e.g., ids.ToID(hashing.ComputeHash256("subnetevm")).String()
@@ -276,7 +354,7 @@ message CreateBlockchainsResponse {
 }
 
 message CreateSubnetsRequest {
-  optional uint32 num_subnets = 1;
+  repeated SubnetSpec subnet_specs = 1;
 }
 
 message CreateSubnetsResponse {
@@ -436,7 +514,7 @@ message SaveSnapshotResponse {
 message LoadSnapshotRequest {
   string snapshot_name = 1;
   optional string exec_path = 2;
-  optional string plugin_dir = 3;
+  string plugin_dir = 3;
   optional string root_data_dir = 4;
   map<string, string> chain_configs = 5;
   map<string, string> upgrade_configs = 6;
@@ -461,4 +539,43 @@ message GetSnapshotNamesRequest {
 
 message GetSnapshotNamesResponse {
   repeated string snapshot_names = 1;
+}
+
+message ListSubnetsRequest {
+}
+
+message ListSubnetsResponse {
+  repeated string subnet_ids = 1;
+}
+
+message ListBlockchainsRequest {
+}
+
+message ListBlockchainsResponse {
+  repeated CustomChainInfo blockchains = 1;
+}
+
+message ListRpcsRequest {
+}
+
+message NodeRpc {
+  string node_name = 1;
+  string rpc = 2;
+}
+
+message BlockchainRpcs {
+  string blockchain_id = 1;
+  repeated NodeRpc rpcs = 2;
+}
+
+message ListRpcsResponse {
+  repeated BlockchainRpcs blockchains_rpcs = 1;
+}
+
+message VMIDRequest {
+  string vm_name = 1;
+}
+
+message VMIDResponse {
+  string vm_id = 1;
 }
