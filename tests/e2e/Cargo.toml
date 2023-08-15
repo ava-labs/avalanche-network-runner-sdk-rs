@@ -2,7 +2,7 @@
 name = "e2e"
 version = "0.0.0"
 edition = "2021"
-rust-version = "1.71"
+rust-version = "1.70"
 publish = false
 description = "Avalanche network-runner SDK E2E tests"
 license = "BSD-3-Clause"

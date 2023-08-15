@@ -2,7 +2,7 @@
 name = "avalanche-network-runner-sdk"
 version = "0.3.2" # https://crates.io/crates/avalanche-network-runner-sdk
 edition = "2021"
-rust-version = "1.71"
+rust-version = "1.70"
 publish = true
 description = "avalanche-network-runner-sdk in Rust"
 license = "BSD-3-Clause"
