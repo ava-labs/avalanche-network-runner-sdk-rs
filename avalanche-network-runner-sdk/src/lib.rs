@@ -13,8 +13,9 @@ pub mod rpcpb {
 }
 pub use rpcpb::{
     control_service_client::ControlServiceClient, ping_service_client::PingServiceClient,
-    BlockchainSpec, HealthRequest, HealthResponse, PingRequest, PingResponse, StartRequest,
-    StartResponse, StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest,
+    AddNodeRequest, AddNodeResponse, BlockchainSpec, HealthRequest, HealthResponse, PingRequest,
+    PingResponse, RemoveNodeRequest, RemoveNodeResponse, StartRequest, StartResponse,
+    StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest,
 };
 
 pub struct Client<T> {
@@ -131,6 +132,32 @@ impl Client<Channel> {
 
         let stop_resp = resp.into_inner();
         Ok(stop_resp)
+    }
+
+    /// Add a node to the currently running cluster.
+    pub async fn add_node(&self, req: AddNodeRequest) -> io::Result<AddNodeResponse> {
+        let mut control_client = self.grpc_client.control_client.lock().await;
+        let req = tonic::Request::new(req);
+        let resp = control_client
+            .add_node(req)
+            .await
+            .map_err(|e| Error::new(ErrorKind::Other, format!("failed add_node '{}'", e)))?;
+
+        let add_node_resp = resp.into_inner();
+        Ok(add_node_resp)
+    }
+
+    /// Remove a node from the currently running cluster.
+    pub async fn remove_node(&self, req: RemoveNodeRequest) -> io::Result<RemoveNodeResponse> {
+        let mut control_client = self.grpc_client.control_client.lock().await;
+        let req = tonic::Request::new(req);
+        let resp = control_client
+            .remove_node(req)
+            .await
+            .map_err(|e| Error::new(ErrorKind::Other, format!("failed remove_node '{}'", e)))?;
+
+        let remove_node_resp = resp.into_inner();
+        Ok(remove_node_resp)
     }
 }
 
