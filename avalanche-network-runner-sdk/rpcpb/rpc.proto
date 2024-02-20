@@ -32,7 +32,10 @@ service ControlService {
   rpc AddPermissionlessValidator(AddPermissionlessValidatorRequest) returns (AddPermissionlessValidatorResponse) {
   }
 
-  rpc RemoveSubnetValidator(RemoveSubnetValidatorRequest) returns (RemoveSubnetValidatorResponse) {
+  rpc AddSubnetValidators(AddSubnetValidatorsRequest) returns (AddSubnetValidatorsResponse) {
+  }
+
+  rpc RemoveSubnetValidator(RemoveSubnetValidatorsRequest) returns (RemoveSubnetValidatorsResponse) {
   }
 
   rpc CreateSubnets(CreateSubnetsRequest) returns (CreateSubnetsResponse) {
@@ -59,8 +62,7 @@ service ControlService {
   rpc AddNode(AddNodeRequest) returns (AddNodeResponse) {
   }
 
-  rpc AddSubnetValidators(AddSubnetValidatorsRequest) returns (AddSubnetValidatorsResponse) {
-  }
+  
 
   rpc RestartNode(RestartNodeRequest) returns (RestartNodeResponse) {
   }
@@ -315,16 +317,16 @@ message AddPermissionlessDelegatorResponse {
   ClusterInfo cluster_info = 1;
 }
 
-message RemoveSubnetValidatorSpec {
+message RemoveSubnetValidatorsSpec {
   string subnet_id = 1;
   repeated string node_names = 2;
 }
 
-message RemoveSubnetValidatorRequest {
-  repeated RemoveSubnetValidatorSpec validator_spec = 1;
+message RemoveSubnetValidatorsRequest {
+  repeated RemoveSubnetValidatorsSpec validator_spec = 1;
 }
 
-message RemoveSubnetValidatorResponse {
+message RemoveSubnetValidatorsResponse {
   ClusterInfo cluster_info = 1;
 }
 

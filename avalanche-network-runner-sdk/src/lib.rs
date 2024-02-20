@@ -6,7 +6,8 @@ use std::{
 use log::info;
 use rpcpb::{
     AddPermissionlessValidatorRequest, AddPermissionlessValidatorResponse,
-    RemoveSubnetValidatorRequest, RemoveSubnetValidatorResponse,
+    AddSubnetValidatorsRequest, AddSubnetValidatorsResponse, RemoveSubnetValidatorsRequest,
+    RemoveSubnetValidatorsResponse,
 };
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
@@ -17,10 +18,11 @@ pub mod rpcpb {
 }
 pub use rpcpb::{
     control_service_client::ControlServiceClient, ping_service_client::PingServiceClient,
-    AddNodeRequest, AddNodeResponse, BlockchainSpec, HealthRequest, HealthResponse, PingRequest,
-    PingResponse, RemoveNodeRequest, RemoveNodeResponse, StartRequest, StartResponse,
+    AddNodeRequest, AddNodeResponse, BlockchainSpec, HealthRequest, HealthResponse,
+    ListBlockchainsRequest, ListBlockchainsResponse, ListSubnetsRequest, ListSubnetsResponse,
+    PingRequest, PingResponse, RemoveNodeRequest, RemoveNodeResponse, StartRequest, StartResponse,
     StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest, VmidRequest,
-    VmidResponse, ListBlockchainsRequest, ListBlockchainsResponse, ListSubnetsRequest, ListSubnetsResponse,
+    VmidResponse,
 };
 
 pub struct Client<T> {
@@ -165,8 +167,8 @@ impl Client<Channel> {
         Ok(remove_node_resp)
     }
 
-    /// Adds a new validator to the network.
-    pub async fn add_validator(
+    /// Adds a new permissionless validator to the network.
+    pub async fn add_permissionless_validator(
         &self,
         req: AddPermissionlessValidatorRequest,
     ) -> io::Result<AddPermissionlessValidatorResponse> {
@@ -185,10 +187,24 @@ impl Client<Channel> {
         Ok(resp)
     }
 
+    pub async fn add_validator(
+        &self,
+        req: AddSubnetValidatorsRequest,
+    ) -> io::Result<AddSubnetValidatorsResponse> {
+        let mut control_client = self.grpc_client.control_client.lock().await;
+        let req = tonic::Request::new(req);
+        let resp = control_client
+            .add_subnet_validators(req)
+            .await
+            .map_err(|e| Error::new(ErrorKind::Other, format!("failed add_validators '{}'", e)))?;
+        let resp = resp.into_inner();
+        Ok(resp)
+    }
+
     pub async fn remove_validator(
         &self,
-        req: RemoveSubnetValidatorRequest,
-    ) -> io::Result<RemoveSubnetValidatorResponse> {
+        req: RemoveSubnetValidatorsRequest,
+    ) -> io::Result<RemoveSubnetValidatorsResponse> {
         let mut control_client = self.grpc_client.control_client.lock().await;
         let req = tonic::Request::new(req);
         let resp = control_client
@@ -197,7 +213,7 @@ impl Client<Channel> {
             .map_err(|e| {
                 Error::new(
                     ErrorKind::Other,
-                    format!("failed remove_subnet_validator '{}'", e),
+                    format!("failed remove_validators '{}'", e),
                 )
             })?;
         let resp = resp.into_inner();
@@ -215,13 +231,15 @@ impl Client<Channel> {
         Ok(resp)
     }
 
-    pub async fn list_blockchains(&self, req: ListBlockchainsRequest) -> io::Result<ListBlockchainsResponse> {
+    pub async fn list_blockchains(
+        &self,
+        req: ListBlockchainsRequest,
+    ) -> io::Result<ListBlockchainsResponse> {
         let mut control_client = self.grpc_client.control_client.lock().await;
         let req = tonic::Request::new(req);
-        let resp = control_client
-            .list_blockchains(req)
-            .await
-            .map_err(|e| Error::new(ErrorKind::Other, format!("failed list_blockchains '{}'", e)))?;
+        let resp = control_client.list_blockchains(req).await.map_err(|e| {
+            Error::new(ErrorKind::Other, format!("failed list_blockchains '{}'", e))
+        })?;
         let resp = resp.into_inner();
         Ok(resp)
     }
