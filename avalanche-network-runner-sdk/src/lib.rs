@@ -187,6 +187,7 @@ impl Client<Channel> {
         Ok(resp)
     }
 
+    /// Adds a new permissionless validator to the network.
     pub async fn add_validator(
         &self,
         req: AddSubnetValidatorsRequest,
@@ -201,6 +202,7 @@ impl Client<Channel> {
         Ok(resp)
     }
 
+    /// Removes a validator from the network.
     pub async fn remove_validator(
         &self,
         req: RemoveSubnetValidatorsRequest,
@@ -220,6 +222,7 @@ impl Client<Channel> {
         Ok(resp)
     }
 
+    /// Fetches the VM ID for the current cluster.
     pub async fn vm_id(&self, req: VmidRequest) -> io::Result<VmidResponse> {
         let mut control_client = self.grpc_client.control_client.lock().await;
         let req = tonic::Request::new(req);
@@ -231,6 +234,7 @@ impl Client<Channel> {
         Ok(resp)
     }
 
+    /// Fetches the list of blockchains for the current cluster.
     pub async fn list_blockchains(
         &self,
         req: ListBlockchainsRequest,
@@ -244,6 +248,7 @@ impl Client<Channel> {
         Ok(resp)
     }
 
+    /// Fetches the list of subnets for the current cluster.
     pub async fn list_subnets(&self, req: ListSubnetsRequest) -> io::Result<ListSubnetsResponse> {
         let mut control_client = self.grpc_client.control_client.lock().await;
         let req = tonic::Request::new(req);
