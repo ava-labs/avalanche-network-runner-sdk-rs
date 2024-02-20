@@ -19,7 +19,8 @@ pub use rpcpb::{
     control_service_client::ControlServiceClient, ping_service_client::PingServiceClient,
     AddNodeRequest, AddNodeResponse, BlockchainSpec, HealthRequest, HealthResponse, PingRequest,
     PingResponse, RemoveNodeRequest, RemoveNodeResponse, StartRequest, StartResponse,
-    StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest,
+    StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest, VmidRequest,
+    VmidResponse,
 };
 
 pub struct Client<T> {
@@ -199,6 +200,17 @@ impl Client<Channel> {
                     format!("failed remove_subnet_validator '{}'", e),
                 )
             })?;
+        let resp = resp.into_inner();
+        Ok(resp)
+    }
+
+    pub async fn vm_id(&self, req: VmidRequest) -> io::Result<VmidResponse> {
+        let mut control_client = self.grpc_client.control_client.lock().await;
+        let req = tonic::Request::new(req);
+        let resp = control_client
+            .vmid(req)
+            .await
+            .map_err(|e| Error::new(ErrorKind::Other, format!("failed vm_id '{}'", e)))?;
         let resp = resp.into_inner();
         Ok(resp)
     }
