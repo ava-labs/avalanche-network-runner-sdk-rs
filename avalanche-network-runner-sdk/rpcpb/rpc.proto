@@ -59,6 +59,9 @@ service ControlService {
   rpc AddNode(AddNodeRequest) returns (AddNodeResponse) {
   }
 
+  rpc AddSubnetValidators(AddSubnetValidatorsRequest) returns (AddSubnetValidatorsResponse) {
+  }
+
   rpc RestartNode(RestartNodeRequest) returns (RestartNodeResponse) {
   }
 
@@ -281,6 +284,19 @@ message PermissionlessStakerSpec {
   string asset_id = 4;
   string start_time = 5;
   uint64 stake_duration = 6;
+}
+
+message SubnetValidatorsSpec {
+  string subnet_id = 1;
+  repeated string node_names = 2;
+}
+
+message AddSubnetValidatorsRequest {
+  repeated SubnetValidatorsSpec validator_spec = 1;
+}
+
+message AddSubnetValidatorsResponse {
+  ClusterInfo cluster_info = 1;
 }
 
 message AddPermissionlessValidatorRequest {
