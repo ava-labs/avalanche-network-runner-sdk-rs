@@ -4,6 +4,10 @@ use std::{
 };
 
 use log::info;
+use rpcpb::{
+    AddPermissionlessValidatorRequest, AddPermissionlessValidatorResponse,
+    RemoveSubnetValidatorRequest, RemoveSubnetValidatorResponse,
+};
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
 use tonic::transport::Channel;
@@ -158,6 +162,45 @@ impl Client<Channel> {
 
         let remove_node_resp = resp.into_inner();
         Ok(remove_node_resp)
+    }
+
+    /// Adds a new validator to the network.
+    pub async fn add_validator(
+        &self,
+        req: AddPermissionlessValidatorRequest,
+    ) -> io::Result<AddPermissionlessValidatorResponse> {
+        let mut control_client = self.grpc_client.control_client.lock().await;
+        let req = tonic::Request::new(req);
+        let resp = control_client
+            .add_permissionless_validator(req)
+            .await
+            .map_err(|e| {
+                Error::new(
+                    ErrorKind::Other,
+                    format!("failed add_permissionless_validator '{}'", e),
+                )
+            })?;
+        let resp = resp.into_inner();
+        Ok(resp)
+    }
+
+    pub async fn remove_validator(
+        &self,
+        req: RemoveSubnetValidatorRequest,
+    ) -> io::Result<RemoveSubnetValidatorResponse> {
+        let mut control_client = self.grpc_client.control_client.lock().await;
+        let req = tonic::Request::new(req);
+        let resp = control_client
+            .remove_subnet_validator(req)
+            .await
+            .map_err(|e| {
+                Error::new(
+                    ErrorKind::Other,
+                    format!("failed remove_subnet_validator '{}'", e),
+                )
+            })?;
+        let resp = resp.into_inner();
+        Ok(resp)
     }
 }
 
