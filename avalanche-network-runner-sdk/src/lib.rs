@@ -20,7 +20,7 @@ pub use rpcpb::{
     AddNodeRequest, AddNodeResponse, BlockchainSpec, HealthRequest, HealthResponse, PingRequest,
     PingResponse, RemoveNodeRequest, RemoveNodeResponse, StartRequest, StartResponse,
     StatusRequest, StatusResponse, StopRequest, StopResponse, UrIsRequest, VmidRequest,
-    VmidResponse,
+    VmidResponse, ListBlockchainsRequest, ListBlockchainsResponse, ListSubnetsRequest, ListSubnetsResponse,
 };
 
 pub struct Client<T> {
@@ -211,6 +211,28 @@ impl Client<Channel> {
             .vmid(req)
             .await
             .map_err(|e| Error::new(ErrorKind::Other, format!("failed vm_id '{}'", e)))?;
+        let resp = resp.into_inner();
+        Ok(resp)
+    }
+
+    pub async fn list_blockchains(&self, req: ListBlockchainsRequest) -> io::Result<ListBlockchainsResponse> {
+        let mut control_client = self.grpc_client.control_client.lock().await;
+        let req = tonic::Request::new(req);
+        let resp = control_client
+            .list_blockchains(req)
+            .await
+            .map_err(|e| Error::new(ErrorKind::Other, format!("failed list_blockchains '{}'", e)))?;
+        let resp = resp.into_inner();
+        Ok(resp)
+    }
+
+    pub async fn list_subnets(&self, req: ListSubnetsRequest) -> io::Result<ListSubnetsResponse> {
+        let mut control_client = self.grpc_client.control_client.lock().await;
+        let req = tonic::Request::new(req);
+        let resp = control_client
+            .list_subnets(req)
+            .await
+            .map_err(|e| Error::new(ErrorKind::Other, format!("failed list_subnets '{}'", e)))?;
         let resp = resp.into_inner();
         Ok(resp)
     }
