@@ -18,15 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
 
       # https://github.com/hyperium/tonic/issues/1047#issuecomment-1222508191
-      - uses: abelfodil/protoc-action@v1
+      - uses: abelfodil/protoc-action@b540a249a18feedb02bfbfa655afa15255cf3dc6 # v1
         with:
           protoc-version: "3.19.4"
 
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: nightly
           profile: minimal
@@ -34,7 +34,7 @@ jobs:
           override: true
       - name: Check Rust version
         run: rustc --version
-      - uses: Swatinem/rust-cache@v1
+      - uses: Swatinem/rust-cache@81d053bdb0871dcd3f10763c8cc60d0adc41762b # v1
         with:
           cache-on-failure: true
       - name: Run static analysis tests
@@ -46,15 +46,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
 
       # https://github.com/hyperium/tonic/issues/1047#issuecomment-1222508191
-      - uses: abelfodil/protoc-action@v1
+      - uses: abelfodil/protoc-action@b540a249a18feedb02bfbfa655afa15255cf3dc6 # v1
         with:
           protoc-version: "3.19.4"
 
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: nightly
           profile: minimal
@@ -62,7 +62,7 @@ jobs:
           override: true
       - name: Check Rust version
         run: rustc --version
-      - uses: Swatinem/rust-cache@v1
+      - uses: Swatinem/rust-cache@81d053bdb0871dcd3f10763c8cc60d0adc41762b # v1
         with:
           cache-on-failure: true
       - name: Check unused Cargo dependencies
@@ -74,22 +74,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
 
       # https://github.com/hyperium/tonic/issues/1047#issuecomment-1222508191
-      - uses: abelfodil/protoc-action@v1
+      - uses: abelfodil/protoc-action@b540a249a18feedb02bfbfa655afa15255cf3dc6 # v1
         with:
           protoc-version: "3.19.4"
 
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: stable
           profile: minimal
           override: true
       - name: Check Rust version
         run: rustc --version
-      - uses: Swatinem/rust-cache@v1
+      - uses: Swatinem/rust-cache@81d053bdb0871dcd3f10763c8cc60d0adc41762b # v1
         with:
           cache-on-failure: true
       - name: Run unit tests
@@ -100,22 +100,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
 
       # https://github.com/hyperium/tonic/issues/1047#issuecomment-1222508191
-      - uses: abelfodil/protoc-action@v1
+      - uses: abelfodil/protoc-action@b540a249a18feedb02bfbfa655afa15255cf3dc6 # v1
         with:
           protoc-version: "3.19.4"
 
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: stable
           profile: minimal
           override: true
       - name: Check Rust version
         run: rustc --version
-      - uses: Swatinem/rust-cache@v1
+      - uses: Swatinem/rust-cache@81d053bdb0871dcd3f10763c8cc60d0adc41762b # v1
         with:
           cache-on-failure: true
       - name: Run e2e tests
